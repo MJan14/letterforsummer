@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter For You</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Animations and Styles */
+        body {
+            font-family: 'Lora', serif;
+            overflow: hidden; /* Prevent scrollbars from floating hearts */
+        }
+        
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ffb3c1;
+            opacity: 0;
+            bottom: -10px;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Fade transitions */
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-out;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 2s ease-in;
+        }
+        
+        .paper-texture {
+            background-color: #fff9f0;
+            background-image: linear-gradient(#eee 1px, transparent 1px);
+            background-size: 100% 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-red-50 h-screen w-screen relative">
+
+    <!-- FLOATING HEARTS CONTAINER -->
+    <div id="hearts-container" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- WELCOME SCREEN (Overlay) -->
+    <div id="welcome-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-red-100 transition-opacity duration-1000">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl text-red-800 mb-8 handwriting animate-pulse">Summer</h1>
+            <button onclick="startExperience()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 flex items-center gap-2 mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+                </svg>
+                Open Letter
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN LETTER CONTENT (Hidden initially) -->
+    <div id="main-content" class="relative z-10 h-full w-full flex items-center justify-center opacity-0 transition-opacity duration-1000 hidden p-4">
+        
+        <!-- The Letter Card -->
+        <div class="paper-texture max-w-lg w-full p-8 md:p-12 shadow-2xl transform rotate-1 rounded-sm relative max-h-[90vh] overflow-y-auto">
+            <!-- Tape visual -->
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-red-200/50 rotate-[-2deg] shadow-sm"></div>
+
+            <!-- Content -->
+            <div class="text-gray-800">
+                <h2 class="text-3xl font-bold text-red-800 mb-6 handwriting">Summer,</h2>
+                
+                <div class="space-y-4 text-lg leading-relaxed">
+                    <!-- LETTER CONTENT -->
+                    <p>
+                        I wanted to write you this letter because sometimes words are hard to say out loud, but I want you to know exactly how much you mean to me.
+                    </p>
+                    <p>
+                        The very thought of u would fill me with joy and happiness. I would always look forward to the next time I could see that beautiful face or hear ur sweet voice. It doesnt matter what we do when we hang out or what we talk about.
+                    </p>
+                    <p>
+                        I feel like I can tell u anything because it feels like there is nothing to fear or worry about because i know u care for me. There is this desire to be as kind a person as i am when im with u. I just want to improve myself as best as I can in every way because I dont want to offer u anything less.
+                    </p>
+                    <p>
+                        Thank you for being you. Thank you for your kindness, your patience, and your love. I cherish every memory we have made and I cannot wait to make a million more.
+                    </p>
+                    <p>
+                        I love u so much and i feel loved by u in a way that seems that the world would be a much darker place if i didnt have u.
+                    </p>
+                    <!-- END OF CONTENT -->
+                </div>
+
+                <div class="mt-8 text-right">
+                    <p class="text-xl handwriting">Forever yours,</p>
+                    <p class="text-2xl font-bold text-red-800 handwriting mt-2">Alex</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainContent = document.getElementById('main-content');
+        const heartsContainer = document.getElementById('hearts-container');
+
+        // Function to start the experience
+        function startExperience() {
+            // Hide welcome screen
+            welcomeScreen.classList.add('fade-out');
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+            }, 1000);
+
+            // Show main content
+            mainContent.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                mainContent.classList.remove('opacity-0');
+            }, 50);
+
+            // Start Hearts
+            setInterval(createHeart, 400);
+        }
+
+        // Floating Hearts Animation Logic
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤';
+            
+            // Randomize position and size
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's'; // 3-6s
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // 10-30px
+            
+            heartsContainer.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+    </script>
+</body>
+</html>
